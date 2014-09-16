@@ -12,7 +12,7 @@ This project is a proud member of the [coreBOS family](http://corebos.org/). Fee
 How to use:
 --------
 
-####Protip: Install using Bower
+####Install using Bower
 ```shell
 bower install https://github.com/tsolucio/coreBOSWSAPIJS.git
 ```
@@ -37,6 +37,18 @@ angular.module('coreBOSJSApp',
 ```
 
 ####Once you get a successful login you can call any API service and use the results in your application.
+
+
+Dependencies:
+--------
+
+This service requires MD5 calculation to prepare the hash pass code to connect to coreBOS. This dependency will be automatically installed for you if you use *bower*, but if you decide to do it manually you will have to load that service first.
+
+You can load it with bower too:
+
+```
+bower install angular-md5
+```
 
 
 License
