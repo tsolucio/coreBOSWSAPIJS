@@ -19,7 +19,7 @@ bower install https://github.com/tsolucio/coreBOSWSAPIJS.git
 
 ####Add the JavaScript AFTER loading angularjs and before loading your main application script which will use the API
 ```html
-<script type="text/javascript" src="js/coreBOSAPI.js"></script>
+<script type="text/javascript" src="bower_components/coreBOSWSAPIJS/coreBOSAPI.js"></script>
 ```
 
 ####Establish a connection to coreBOS with the coreBOSWSAPI.doLogin() call. For example, when loading your main application class
