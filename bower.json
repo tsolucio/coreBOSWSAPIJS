@@ -7,7 +7,7 @@
   ],
   "description": "coreBOS Webservice Library for AngularJS",
   "main": "coreBOSAPI.js",
-  "license": "MPL",
+  "license": "MPL-2.0",
   "ignore": [
     "**/.*",
     "node_modules",
