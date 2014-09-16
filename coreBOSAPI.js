@@ -488,17 +488,21 @@ angular.module('coreBOSAPIservice', [])
 	return {
 		'response': function(response) {
 			if (response.config.url.indexOf(coreBOSAPIStatus.getServiceURL())!=-1) {
-				coreBOSAPIStatus.setInvalidKeys(false);
-				if (response.config.data != undefined && response.config.data.operation == 'login') {
-					if (response.data.success) {  // we have a successful login > we have to save the session
-						coreBOSAPIStatus.setSessionInfo({
-							_sessionid: response.data.result.sessionName,
-							_userid: response.data.result.userId
-						});
-					} else {  // unsuccessful login
+				if (response.data != undefined) {
+					if (response.data.success) {  // we have a successful API call
+						coreBOSAPIStatus.setInvalidKeys(false);
+						if (response.config.data != undefined && response.config.data.operation == 'login') {  // we have a successful login > we have to save the session
+							coreBOSAPIStatus.setSessionInfo({
+								_sessionid: response.data.result.sessionName,
+								_userid: response.data.result.userId
+							});
+						}
+					} else {  // unsuccessful API call
 						response.status = 401;
 						response.statusText = response.data.error.code;
-						coreBOSAPIStatus.setInvalidKeys(true);
+						if (response.config.data != undefined && response.config.data.operation == 'login') {  // we have an unsuccessful login > we have to invalidate status
+							coreBOSAPIStatus.setInvalidKeys(true);
+						}
 						return $q.reject(response);
 					}
 				}
