@@ -1,0 +1,21 @@
+{
+  "name": "coreBOSWSAPIJS",
+  "version": "1.0.0",
+  "homepage": "https://github.com/tsolucio/coreBOSWSAPIJS",
+  "authors": [
+    "Joe Bordes <joe@tsolucio.com>"
+  ],
+  "description": "coreBOS Webservice Library for AngularJS",
+  "main": "coreBOSAPI.js",
+  "license": "MPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-md5": "~0.1.7"
+  }
+}
