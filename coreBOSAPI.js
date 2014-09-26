@@ -19,7 +19,7 @@ angular.module('coreBOSAPIservice', [])
 		var apiConfigured = false;
 		
 		corebosAPI.setConfigured = function() {
-			apiConfigured = !(_servicekey === false || _servicekey=='' || _servicekey=='PUT YOUR USER ACCESS KEY HERE');
+			apiConfigured = !((_servicekey === false || _servicekey=='' || _servicekey=='PUT YOUR USER ACCESS KEY HERE') && coreBOSAPIStatus.getSessionInfo()=={});
 		};
 		corebosAPI.setConfigured();
 		corebosAPI.isConfigured = function(newkey) {
@@ -105,7 +105,6 @@ angular.module('coreBOSAPIservice', [])
 				_servicetoken = result.token;
 				coreBOSAPIStatus.setServerTime(result.serverTime);
 				coreBOSAPIStatus.setExpireTime(result.expireTime);
-				corebosAPI.setConfigured();
 			}
 		}
 
@@ -135,6 +134,22 @@ angular.module('coreBOSAPIservice', [])
 					data: postdata
 				});
 			}); // end then doChallenge
+		};
+
+		/**
+		 * Do Login Portal Operation
+		 */
+		corebosAPI.doLoginPortal = function(username, password) {
+			var getdata = {
+				'operation' : 'loginPortal',
+				'username'  : username,
+				'password'  : password
+			};
+			return $http({
+				method : 'GET',
+				url : _serviceurl,
+				data: getdata
+			});
 		};
 
 		/**
@@ -497,10 +512,18 @@ angular.module('coreBOSAPIservice', [])
 								_userid: response.data.result.userId
 							});
 						}
+						if (response.config.data != undefined && response.config.data.operation == 'loginPortal') {  // we have a successful login via portal > we have to save the session
+							coreBOSAPIStatus.setSessionInfo({
+								_sessionid: response.data.result.sessionName,
+								_userid: response.data.result.user['id']
+							});
+							coreBOSAPIStatus.setServerTime(response.data.result.serverTime);
+							coreBOSAPIStatus.setExpireTime(response.data.result.expireTime);
+						}
 					} else {  // unsuccessful API call
 						response.status = 401;
 						response.statusText = response.data.error.code;
-						if (response.config.data != undefined && response.config.data.operation == 'login') {  // we have an unsuccessful login > we have to invalidate status
+						if (response.config.data != undefined && (response.config.data.operation == 'login' || response.config.data.operation == 'loginPortal')) {  // we have an unsuccessful login > we have to invalidate status
 							coreBOSAPIStatus.setInvalidKeys(true);
 						}
 						return $q.reject(response);
