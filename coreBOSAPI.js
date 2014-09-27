@@ -179,10 +179,17 @@ angular.module('coreBOSAPIservice', [])
 			});
 		};
 
-		corebosAPI.getWhereCondition = function(firstrow, filterBy, filterByFields, orderBy, orderByReverse, glue) {
+		corebosAPI.getWhereCondition = function(firstrow, filterBy, filterByFields, orderBy, orderByReverse, glue, sqlwhere) {
 			var where = '';
-			if (angular.isUndefined(glue) || glue == '') glue = ' and ';
-			if (filterBy != null ) {
+			if (angular.isUndefined(sqlwhere) || sqlwhere == '')
+				where = '';
+			else
+				where = sqlwhere;
+			if (angular.isUndefined(glue) || glue == '')
+				glue = ' and ';
+			else
+				glue = ' ' + glue + ' ';
+			if (filterBy != null) {
 				var row = [];
 				row.push(firstrow);
 				var search_cols = coreBOSWSAPI.getResultColumns(row);
@@ -194,8 +201,7 @@ angular.module('coreBOSAPIservice', [])
 					}
 					where = where + value + " like '%" + filterBy + "%' ";
 				});
-			}
-			if (where == '' && !angular.equals({}, filterByFields)) {
+			} else if (!angular.equals({}, filterByFields)) {
 				angular.forEach(filterByFields, function(value, key) {
 					if (where != '') {
 						where = where + glue;
