@@ -192,7 +192,7 @@ angular.module('coreBOSAPIservice', [])
 			if (filterBy != null) {
 				var row = [];
 				row.push(firstrow);
-				var search_cols = coreBOSWSAPI.getResultColumns(row);
+				var search_cols = corebosAPI.getResultColumns(row);
 				angular.forEach(search_cols, function(value, key) {
 					if (where != '') {
 						where = where + glue;
