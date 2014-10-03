@@ -462,7 +462,10 @@ angular.module('coreBOSAPIservice', [])
 	var _localexpiretime = 0;
 	var corebosAPIIK = {};
 	corebosAPIIK.hasInvalidKeys = function() {
-		return this.invalidKeys;
+		if(this.invalidKeys == undefined)
+			return true;
+		else
+			return this.invalidKeys;
 	};
 	corebosAPIIK.setInvalidKeys = function(ikey) {
 		this.invalidKeys = ikey;
