@@ -531,7 +531,8 @@ angular.module('coreBOSAPIservice', [])
 						}
 					} else {  // unsuccessful API call
 						response.status = 401;
-						response.statusText = response.data.error.code;
+						if (response.data.error != undefined && response.data.error.code != undefined)
+							response.statusText = response.data.error.code;
 						if (response.config.data != undefined && (response.config.data.operation == 'login' || response.config.data.operation == 'loginPortal')) {  // we have an unsuccessful login > we have to invalidate status
 							coreBOSAPIStatus.setInvalidKeys(true);
 						}
