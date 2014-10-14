@@ -448,6 +448,23 @@ angular.module('coreBOSAPIservice', [])
 				data: senddata
 			});
 		};
+		
+		/**
+		 * Add comment to HelpDesk or Faq
+		 */
+		corebosAPI.doAddTicketFaqComment = function(id, valuemap) {
+			var postdata = {
+				'operation' : 'addTicketFaqComment',
+				'sessionName' : coreBOSAPIStatus.getSessionInfo()._sessionid,
+				'id' : id,
+				'values' : angular.toJson(valuemap)
+			};
+			return $http({
+				method : 'POST',
+				url : _serviceurl,
+				data: postdata
+			});
+		};
 
 		return corebosAPI;
 	}
