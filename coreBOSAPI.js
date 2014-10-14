@@ -538,7 +538,7 @@ angular.module('coreBOSAPIservice', [])
 								_userid: response.data.result.userId
 							});
 						}
-						if (response.config.data != undefined && response.config.data.operation == 'loginPortal') {  // we have a successful login via portal > we have to save the session
+						if (response.config.params != undefined && response.config.params.operation == 'loginPortal') {  // we have a successful login via portal > we have to save the session
 							coreBOSAPIStatus.setSessionInfo({
 								_sessionid: response.data.result.sessionName,
 								_userid: response.data.result.user['id']
