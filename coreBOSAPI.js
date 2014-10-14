@@ -148,7 +148,7 @@ angular.module('coreBOSAPIservice', [])
 			return $http({
 				method : 'GET',
 				url : _serviceurl,
-				data: getdata
+				params: getdata
 			});
 		};
 
