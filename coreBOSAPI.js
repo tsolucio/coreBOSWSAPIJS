@@ -163,6 +163,49 @@ angular.module('coreBOSAPIservice', [])
 		};
 
 		/**
+		 * Helper method to work with dates
+		 * Given a day, month and year it will return a date string formatted in the current user's format
+		 * NOTE: this method requires that the session variable in coreBOSAPIStatus have a dateformat property
+		 *  according to the connected user. Due to the way the REST API works this must be set outside this service
+		 */
+		corebosAPI.coreBOSformatDate = function(fday,fmonth,fyear) {
+			switch (coreBOSAPIStatus.getSessionInfo().dateformat) {
+				case 'dd-mm-yyyy':
+					fdate = fday + '-' + fmonth + '-' + fyear;
+					break;
+				case 'mm-dd-yyyy':
+					fdate = fmonth + '-' + fday + '-' + fyear;
+					break;
+				default:
+					fdate = fyear + '-' + fmonth + '-' + fday;
+			}
+			return fdate;
+		};
+
+		/**
+		 * Helper method to work with dates
+		 * Given a date that came from coreBOS in the current user's format
+		 * It returns the three components of the date in an object
+		 *  {year: yyyy, month:mm, day: dd}
+		 * NOTE: this method requires that the session variable in coreBOSAPIStatus have a dateformat property
+		 *  according to the connected user. Due to the way the REST API works this must be set outside this service
+		 */
+		corebosAPI.coreBOSunformatDate = function(fdate) {
+			var dr = fdate.split('-');
+			switch (coreBOSAPIStatus.getSessionInfo().dateformat) {
+				case 'dd-mm-yyyy':
+					rdate = {day: dr[0], month: dr[1], year: dr[2]};
+					break;
+				case 'mm-dd-yyyy':
+					rdate = {day: dr[1], month: dr[0], year: dr[2]};
+					break;
+				default:
+					rdate = {day: dr[2], month: dr[1], year: dr[0]};;
+			}
+			return rdate;
+		};
+
+		/**
 		 * Do Query Operation.
 		 */
 		corebosAPI.doQuery = function(query) {
