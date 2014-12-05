@@ -111,9 +111,10 @@ angular.module('coreBOSAPIservice', [])
 		/**
 		 * Do Login Operation
 		 */
-		corebosAPI.doLogin = function(username, accesskey) {
+		corebosAPI.doLogin = function(username, accesskey, withpassword) {
 			if (username==undefined) username = corebosAPI.getcoreBOSUser();
 			if (accesskey==undefined) accesskey = corebosAPI.getcoreBOSKey();
+			if (withpassword==undefined) withpassword = false;
 			return __doChallenge(username).then(function(res){
 				processDoChallenge(res);
 				if(_servicetoken == false) {
@@ -126,7 +127,7 @@ angular.module('coreBOSAPIservice', [])
 				var postdata = {
 					'operation' : 'login',
 					'username'  : username,
-					'accessKey' : md5.createHash(_servicetoken + accesskey)
+					'accessKey' : (withpassword ? _servicetoken + accesskey : md5.createHash(_servicetoken + accesskey))
 				};
 				return $http({
 					method : 'POST',
