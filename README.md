@@ -19,6 +19,7 @@ bower install coreboswsapijs
 
 ####Add the JavaScript AFTER loading angularjs and before loading your main application script which will use the API
 ```html
+<script src="bower_components/angular-md5/angular-md5.min.js"></script>
 <script type="text/javascript" src="bower_components/coreboswsapijs/coreBOSAPI.js"></script>
 ```
 
