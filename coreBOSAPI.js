@@ -138,6 +138,23 @@ angular.module('coreBOSAPIservice', [])
 		};
 
 		/**
+		 * Do Logout Operation
+		 */
+		corebosAPI.doLogout = function() {
+			var postdata = {
+				'operation'    : 'logout',
+				'sessionName'  : coreBOSAPIStatus.getSessionInfo()._sessionid
+			};
+			return $http({
+				method : 'POST',
+				url : _serviceurl,
+				params: postdata
+			});
+			coreBOSAPIStatus.setInvalidKeys(true);
+			coreBOSAPIStatus.setSessionInfo({});
+		};
+
+		/**
 		 * Do Login Portal Operation
 		 */
 		corebosAPI.doLoginPortal = function(username, password) {
