@@ -96,17 +96,36 @@ angular.module('coreBOSAPIservice', [])
 				url : _serviceurl,
 				params: getdata
 			});
+		}
+
+		/**
+		 * Perform the challenge
+		 * @access public
+		 */
+		corebosAPI.doChallenge = function(username) {
+			var getdata = {
+				'operation' : 'getchallenge',
+				'username'  : username
+			};
+			return $http({
+				method : 'GET',
+				url : _serviceurl,
+				params: getdata
+			});
 		};
 
-		function processDoChallenge(res, status) {
+		corebosAPI.processDoChallenge = function(res, status) {
 			var resobj = res.data;
 			if(corebosAPI.hasError(res.data) == false) {
 				var result = resobj['result'];
 				_servicetoken = result.token;
 				coreBOSAPIStatus.setServerTime(result.serverTime);
 				coreBOSAPIStatus.setExpireTime(result.expireTime);
+				return _servicetoken;
+			} else {
+				return false;
 			}
-		}
+		};
 
 		/**
 		 * Do Login Operation
@@ -116,7 +135,7 @@ angular.module('coreBOSAPIservice', [])
 			if (accesskey==undefined) accesskey = corebosAPI.getcoreBOSKey();
 			if (withpassword==undefined) withpassword = false;
 			return __doChallenge(username).then(function(res){
-				processDoChallenge(res);
+				corebosAPI.processDoChallenge(res);
 				if(_servicetoken == false) {
 					return false;  // Failed to get the service token
 				}
