@@ -141,17 +141,22 @@ angular.module('coreBOSAPIservice', [])
 		 * Do Logout Operation
 		 */
 		corebosAPI.doLogout = function() {
+			if (coreBOSAPIStatus.hasInvalidKeys()) {  // not logged in
+				return true;
+			}
 			var postdata = {
 				'operation'    : 'logout',
 				'sessionName'  : coreBOSAPIStatus.getSessionInfo()._sessionid
 			};
-			return $http({
+			$http({
 				method : 'POST',
 				url : _serviceurl,
 				params: postdata
+			}).then(function(resp) {
+				coreBOSAPIStatus.setInvalidKeys(true);
+				coreBOSAPIStatus.setSessionInfo({});
 			});
-			coreBOSAPIStatus.setInvalidKeys(true);
-			coreBOSAPIStatus.setSessionInfo({});
+			return true;
 		};
 
 		/**
