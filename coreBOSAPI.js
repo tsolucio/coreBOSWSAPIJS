@@ -128,6 +128,27 @@ angular.module('coreBOSAPIservice', [])
 		};
 
 		/**
+		 * Do Login Operation with a given challenge token
+		 */
+		corebosAPI.doLoginWithChallengeToken = function(username, accesskey, withpassword, chtoken) {
+			if (username==undefined) username = corebosAPI.getcoreBOSUser();
+			if (accesskey==undefined) accesskey = corebosAPI.getcoreBOSKey();
+			if (withpassword==undefined) withpassword = false;
+			corebosAPI.setcoreBOSUser(username);
+			corebosAPI.setcoreBOSKey(accesskey);
+			var postdata = {
+				'operation' : 'login',
+				'username'  : username,
+				'accessKey' : (withpassword ? chtoken + accesskey : md5.createHash(chtoken + accesskey))
+			};
+			return $http({
+				method : 'POST',
+				url : _serviceurl,
+				data: postdata
+			});
+		};
+
+		/**
 		 * Do Login Operation
 		 */
 		corebosAPI.doLogin = function(username, accesskey, withpassword) {
