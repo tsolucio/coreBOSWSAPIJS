@@ -191,7 +191,7 @@ angular.module('coreBOSAPIservice', [])
 			$http({
 				method : 'POST',
 				url : _serviceurl,
-				params: postdata
+				data: postdata
 			}).then(function(resp) {
 				coreBOSAPIStatus.setInvalidKeys(true);
 				coreBOSAPIStatus.setSessionInfo({});
