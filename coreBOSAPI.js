@@ -216,6 +216,31 @@ angular.module('coreBOSAPIservice', [])
 		};
 
 		/**
+		 * Do Extended Session Login Operation
+		 */
+		corebosAPI.doExtendedSessionLogin = function() {
+			var postdata = {
+				'operation' : 'extendsession'
+			};
+			return $http({
+				method : 'POST',
+				url : _serviceurl,
+				data: postdata
+			}).then(function(response) {
+				if (response.data.success) {
+					coreBOSAPIStatus.setInvalidKeys(false);
+					coreBOSAPIStatus.setSessionInfo({
+						_sessionid: response.data.result.sessionName,
+						_userid: response.data.result.userId
+					});
+				} else {
+					coreBOSAPIStatus.setInvalidKeys(true);
+					coreBOSAPIStatus.setSessionInfo({});
+				}
+			});
+		};
+
+		/**
 		 * Get actual record id from the response id.
 		 */
 		corebosAPI.getRecordId = function(id) {
